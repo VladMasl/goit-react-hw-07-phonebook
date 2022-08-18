@@ -1,31 +1,33 @@
+import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import action from '../../redux/contacts/contactsActions';
+import { contactsFilter } from '../../redux/contacts/contactsSelrctor';
+import {
+  deleteContacts,
+  getContacts,
+} from '../../redux/contacts/contactOperations';
 import PropTypes from 'prop-types';
-import { nanoid } from 'nanoid';
+
 import s from './ContactList.module.css';
 
 const ContactList = () => {
-  const filter = useSelector(state => state.contacts.filter);
-  const contacts = useSelector(state => state.contacts.item);
+  const contacts = useSelector(contactsFilter);
   const dispatch = useDispatch();
 
-  const getVisibleFilterList = () => {
-    const normalizedFilter = filter.toLowerCase();
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(normalizedFilter)
-    );
-  };
+  useEffect(() => {
+    dispatch(getContacts());
+    // eslint-disable-next-line
+  }, []);
 
   return (
     <ul className={s.list}>
-      {getVisibleFilterList().map(({ name, number, id }) => (
-        <li key={nanoid()} className={s.item}>
+      {contacts.map(({ name, phone, id }) => (
+        <li key={id} className={s.item}>
           <span className={s.span}>{name}:</span>
-          <span>{number}</span>
+          <span>{phone}</span>
           <button
             className={s.btn}
             type="button"
-            onClick={() => dispatch(action.deleteContacts(id))}
+            onClick={() => dispatch(deleteContacts(id))}
           >
             Delete
           </button>

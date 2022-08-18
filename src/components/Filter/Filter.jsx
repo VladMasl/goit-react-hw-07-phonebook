@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
-import action from '../../redux/contacts/contactsActions';
+import { changeFilter } from '../../redux/contacts/contactsSlice';
+import { getFilter } from '../../redux/contacts/contactsSelrctor';
 import s from './Filter.module.css';
-import PropTypes from 'prop-types';
 
 const Filter = () => {
-  const filter = useSelector(state => state.contacts.filter);
+  const filter = useSelector(getFilter);
   const dispatch = useDispatch();
 
   return (
@@ -13,16 +13,11 @@ const Filter = () => {
       <input
         type="text"
         value={filter}
-        onChange={e => dispatch(action.chengeFilter(e.target.value))}
+        onChange={e => dispatch(changeFilter(e.target.value))}
         className={s.input}
       />
     </label>
   );
-};
-
-Filter.propTypes = {
-  filter: PropTypes.string,
-  changeFilter: PropTypes.func,
 };
 
 export default Filter;

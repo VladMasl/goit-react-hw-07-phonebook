@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
-import actions from '../../redux/contacts/contactsActions';
+import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { addContacts } from '../../redux/contacts/contactOperations';
+import { getItems } from '../../redux/contacts/contactsSelrctor';
 import s from './ContactForm.module.css';
 
 function ContactForm() {
   const [name, setName] = useState('');
-  const [number, setNumber] = useState('');
+  const [phone, setNumber] = useState('');
 
+  const contacts = useSelector(getItems);
   const dispatch = useDispatch();
 
   const handleInputChange = e => {
@@ -16,7 +18,7 @@ function ContactForm() {
       case 'name':
         setName(value);
         break;
-      case 'number':
+      case 'phone':
         setNumber(value);
         break;
       default:
@@ -25,10 +27,16 @@ function ContactForm() {
   };
 
   const handleSubmit = e => {
-    const data = { name, number };
     e.preventDefault();
-    dispatch(actions.addContacts(data));
-    resetForm();
+    const checkContacts = contacts.find(
+      el => el.name.toLowerCase() === name.toLowerCase()
+    );
+    if (!checkContacts) {
+      dispatch(addContacts({ name, phone }));
+      resetForm();
+    } else {
+      alert(` a contact with that name (${name}) is already saved!!!`);
+    }
   };
 
   const resetForm = () => {
@@ -57,8 +65,8 @@ function ContactForm() {
           <input
             className={s.input}
             type="tel"
-            name="number"
-            value={number}
+            name="phone"
+            value={phone}
             onChange={handleInputChange}
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
@@ -75,6 +83,6 @@ function ContactForm() {
 }
 
 ContactForm.propTypes = {
-   onSubmit: PropTypes.func,
- };
+  onSubmit: PropTypes.func,
+};
 export default ContactForm;

@@ -10,10 +10,12 @@
 }
 
 .label {
+  font-family: Dancing Script;
+  font-weight: 700;
   display: flex;
   justify-content: space-between;
-  color: rgb(148, 108, 0);
-  font-size: 22px;
+  color: rgb(99, 73, 2);
+  font-size: 29px;
   margin-bottom: 10px;
 }
 

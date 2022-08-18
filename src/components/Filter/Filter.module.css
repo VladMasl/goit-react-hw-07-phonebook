@@ -1,11 +1,13 @@
 .label {
+  font-weight: 700;
+  font-family: Dancing Script;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 10px;
-  font-size: 28px;
+  font-size: 38px;
   margin-bottom: 10px;
-  color: rgb(148, 108, 0);
+  color: rgb(99, 73, 2);
 }
 
 .input {
