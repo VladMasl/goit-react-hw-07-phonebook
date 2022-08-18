@@ -17,17 +17,17 @@ function App() {
 
   return (
     <div className={s.decor}>
-      <h1>Phonebook📱</h1>
+      <h1 className={s.title}>Phonebook📱</h1>
       <ContactForm />
       {contacts.length === 0 ? (
-        <h2>
+        <h2 className={s.title}>
           You have no records☝
           <br />
           Enter the number and name☝
         </h2>
       ) : (
         <>
-          <h2>Contacts: {contacts.length}</h2>
+          <h2 className={s.title}>Contacts: {contacts.length}</h2>
           <Filter />
           <ContactList />
         </>
